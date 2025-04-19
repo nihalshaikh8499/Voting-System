@@ -7,7 +7,7 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col items-center justify-center h-[calc(100vh-64px)] text-center px-4">
         <h1 className="text-4xl md:text-6xl font-bold text-blue-700 mb-6">Welcome to the Online Voting System</h1>
-        <p className="text-gray-700 text-lg mb-8 max-w-xl">
+        <p className="text-gray-700 text-xl mb-8 max-w-xl">
           Participate in secure and transparent elections. Login or Register to get started.
         </p>
         <div className="flex gap-4">
