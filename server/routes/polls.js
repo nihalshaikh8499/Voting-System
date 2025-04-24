@@ -27,4 +27,27 @@ router.post('/', auth, async (req, res) => {
   res.json(poll);
 });
 
+// Vote on an option (one per user)
+router.post('/:id/vote', auth, async (req, res) => {
+  const { optionId } = req.body;
+  const poll = await Poll.findById(req.params.id);
+  if (!poll) return res.status(404).json({ msg: 'Poll not found' });
+
+  if (poll.voters.some(v => v.user.toString() === req.user.id)) {
+    return res.status(400).json({ msg: 'You have already voted' });
+  }
+
+  const option = poll.options.id(optionId);
+  if (!option) return res.status(400).json({ msg: 'Option not found' });
+
+  option.votes++;
+  poll.voters.push({ user: req.user.id, option: optionId });
+  await poll.save();
+
+  const pObj = poll.toObject();
+  pObj.userVote = optionId;
+  delete pObj.voters;
+  res.json(pObj);
+});
+
 module.exports = router;
